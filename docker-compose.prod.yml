@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+#  angular:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: c8102ea2a569/frontend-side
+##    restart: always
+#    ports:
+#      - "4200:8081"
+
+  spring-boot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DOCKER_BUILDKIT: 1
+    image: c8102ea2a569/backend-side
+    environment:
+      DB_URL: jdbc:postgresql://database-side:5432/postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: 230214
+    ports:
+      - "8081:8081"
+#    restart: always
+    depends_on:
+      - database-side
+
+  database-side:
+    image: postgres
+    container_name: database-side
+    volumes:
+      - database-side_prod_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 230214
+    ports:
+      - "5432:5432"
+
+
+volumes:
+  database-side_prod_data:
+    driver: local

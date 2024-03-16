@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  database-side:
+    image: postgres
+    container_name: database-side
+    volumes:
+      - database-side_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 230214
+    ports:
+      - "5432:5432"
+
+
+volumes:
+  database-side_data:
+    driver: local
